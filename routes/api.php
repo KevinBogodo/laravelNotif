@@ -26,9 +26,10 @@ Route::group([
      Route::get('profile', 'AuthController@profile');
 });
 
-// Route::group([
-//     'middleware' => 'api',
-//     'namespace' => 'App\Http\Controllers',
-// ], function($router) {
-//      Route::get('notifications', 'NotificationController');
-// });
+Route::group([
+    'middleware' => 'api',
+    'namespace' => 'App\Http\Controllers',
+], function($router) {
+     Route::resource('notifications', 'NotificationController');
+     Route::post('show/{id}', 'NotificationController@show');
+});

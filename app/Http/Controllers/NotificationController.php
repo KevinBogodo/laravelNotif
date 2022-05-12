@@ -24,52 +24,22 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $notifications = $this->user->notifications()->get(['title','content','read']);
+        $notifications = $this->user->notifications()->orderBy('read')->get(['id','title','content','read','created_at']);
         return response()->json($notifications->toArray());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        $notifications = Notification::findOrFail($id);
+        //  update read state
+        $notifications->read = 1;
+        $notifications->save();
+        return response()->json($notifications->toArray());
+        
+        
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Notification  $notification
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Notification $notification)
-    {
-        return $todo;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Notification  $notification
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Notification $notification)
-    {
-        //
-    }
+    
+   
 
     /**
      * Update the specified resource in storage.
