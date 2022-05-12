@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
+
+    protected $user;
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+        $this->user = $this->guard()->user();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +24,8 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        //
+        $notifications = $this->user->notifications()->get(['title','content','read']);
+        return response()->json($notifications->toArray());
     }
 
     /**
@@ -46,7 +57,7 @@ class NotificationController extends Controller
      */
     public function show(Notification $notification)
     {
-        //
+        return $todo;
     }
 
     /**
@@ -70,6 +81,7 @@ class NotificationController extends Controller
     public function update(Request $request, Notification $notification)
     {
         //
+        $notification->read = $request->read;
     }
 
     /**
@@ -81,5 +93,24 @@ class NotificationController extends Controller
     public function destroy(Notification $notification)
     {
         //
+        if($notification->delete()) {
+            return response()->json(
+                [
+                    'status' => true,
+                    'notification' => $notification,
+                ]);
+        } else {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'can not be deleted',
+                ]);
+        }
+    }
+
+
+    protected function guard()
+    {
+        return Auth::guard();
     }
 }

@@ -59,5 +59,9 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-
+    // Relation with notif
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

@@ -23,12 +23,12 @@ Route::group([
      Route::post('register', 'AuthController@register');
      Route::post('logout', 'AuthController@logout');
      Route::post('refresh', 'AuthController@refresh');
-     Route::post('profile', 'AuthController@profile');
+     Route::get('profile', 'AuthController@profile');
 });
 
 // Route::group([
 //     'middleware' => 'api',
 //     'namespace' => 'App\Http\Controllers',
 // ], function($router) {
-//      Route::post('notifications', 'NotificationController');
+//      Route::get('notifications', 'NotificationController');
 // });
