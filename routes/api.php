@@ -31,5 +31,5 @@ Route::group([
     'namespace' => 'App\Http\Controllers',
 ], function($router) {
      Route::resource('notifications', 'NotificationController');
-     Route::post('show/{id}', 'NotificationController@show');
+     Route::post('notification/{id}', 'NotificationController@show');
 });
